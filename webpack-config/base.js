@@ -1,18 +1,20 @@
 "use strict";
 
 const path = require("path");
-const webpack = require("webpack");
 const projectRoot = path.dirname(__dirname);
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+const CDN_HOST = process.env.CDN_HOST;
 
 module.exports = {
   mode: 'production',
   entry: path.join(projectRoot, "src/index.js"),
   output: {
     filename: "app.js",
-    path: path.join(projectRoot, "asset"),
+    path: path.join(projectRoot, "assets/"),
   },
   module: {
     rules: [
@@ -59,7 +61,7 @@ module.exports = {
         loader: "file-loader",
         options: {
           name: '[name].[ext]',
-          publicPath: `/static/`,
+          publicPath: `${CDN_HOST}/assets/`,
         },
       },
     ],
@@ -69,6 +71,10 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html"
+    })
   ],
   optimization: {
     minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],

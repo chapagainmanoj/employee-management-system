@@ -5,9 +5,6 @@ let base = require("./base.js");
 
 let updates = {
   mode: "development",
-  devServer: {
-    port: 8888
-  },
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
