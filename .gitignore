@@ -13,3 +13,4 @@ media/
 *.db
 *.pid
 *.sqlite3
+.env

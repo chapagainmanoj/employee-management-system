@@ -1,0 +1,34 @@
+.error {
+  margin-top: 2px;
+  font-weight: normal;
+  color: #ba0e0e;
+}
+.poperClass {
+  z-index: 1001 !important;
+}
+
+:global(.react-datepicker__close-icon)::after {
+  background: #909090 !important;
+}
+
+:global(.react-datepicker__day--keyboard-selected),
+:global(.react-datepicker__month-text--keyboard-selected),
+:global(.react-datepicker__quarter-text--keyboard-selected),
+:global(.react-datepicker__day--selected),
+:global(.react-datepicker__day--in-range) {
+  background: #ebe5f0 !important;
+  color: #5d2e8e !important;
+  font-weight: bold;
+}
+
+:global(.react-datepicker__header) {
+  background: #ebe5f0;
+}
+
+:global(.react-datepicker-wrapper) {
+  width: 100%;
+}
+
+:global(.ui.selection.dropdown) > :global(.ui.react-datepicker-wrapper) {
+  width: 50%;
+}

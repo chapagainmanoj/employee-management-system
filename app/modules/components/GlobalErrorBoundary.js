@@ -29,9 +29,9 @@ class GlobalErrorBoundary extends React.Component {
     const { message } = this.props;
     if (this.state.hasError) {
       return (
-        <div className="ui padded segment">
+        <div className="ui padded segment align-center">
           <h3>Error Occured</h3>
-          <p>"Page is broken. Please report to QA."</p>
+          <p>Page is broken. Please report to QA.</p>
         </div>
       );
     }

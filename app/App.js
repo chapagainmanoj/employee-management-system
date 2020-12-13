@@ -1,11 +1,7 @@
 import React from "react";
 import { RenderRoutes } from "./libs/RenderRoutes";
-import GlobalErrorBoundary from "./modules/components/GlobalErrorBoundary";
-
-import { TopNav } from "./modules/components";
-import { UserInfo } from "./modules/user/UserInfo";
-import { UserList } from "./modules/user/UserList";
-import { UserCreate } from "./modules/user/UserCreate";
+import { TestForm, TopNav, GlobalErrorBoundary } from "./modules/components";
+import { UserInfo, UserList, UserCreate } from "./modules/user";
 
 const routes = [
   {
@@ -25,6 +21,12 @@ const routes = [
     title: "User List",
     exact: true,
     component: UserCreate,
+  },
+  {
+    path: "/testform",
+    title: "User List",
+    exact: true,
+    component: TestForm,
   },
 ];
 

@@ -1,37 +1,68 @@
 .loginjoincontainer {
-    height: 100%;
+  height: 100%;
 }
 
 .left {
-    width: 50%;
-    float: left;
-    height: 100%;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
+  width: 50%;
+  float: left;
+  height: 100%;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
 }
 
 .right {
-    width: 50%;
-    float: right;
-    padding: 20px;
-    margin: 150px 0;
+  width: 50%;
+  float: right;
+}
+
+:global(.ui):global(.padded):global(.segment).mg150 {
+  margin: 150px 0 0 0;
+  padding: 0 80px;
+}
+
+.header {
+  padding: 10px 80px;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.mgT30 {
+  margin-top: 30px;
 }
 
 .left > .title {
-    color: #02b9b9;
-    text-align: center;
-    margin: 20rem 0;
-    font-size: 30px;
+  color: #02b9b9;
+  text-align: center;
+  margin: 20rem 0;
+  font-size: 30px;
+}
+
+.pd50 {
+  padding: 0 80px;
+}
+
+.link {
+  text-decoration: none;
+  color: slategray;
+}
+
+:global(.ui):global(.form) input[type="text"],
+:global(.ui):global(.form) input[type="password"] {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-radius: 0;
+  padding: 2px;
 }
 
 @media screen and (max-width: 720px) {
-    .left {
-        display: none;
-    }
-    
-    .right {
-        width: 100%;
-        float: right;
-    }
+  .left {
+    display: none;
+  }
+
+  .right {
+    width: 100%;
+    float: right;
+  }
 }

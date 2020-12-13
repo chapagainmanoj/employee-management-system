@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+import { NotFound } from "../modules/components";
 
 export const RenderRoutes = (props) => {
   return (
@@ -21,10 +22,7 @@ export const RenderRoutes = (props) => {
           />
         ) : null;
       })}
-      <Route
-        path="*"
-        render={() => <div className="ui padded segment">Page not found.</div>}
-      />
+      <Route path="*" render={NotFound} />
     </Switch>
   );
 };

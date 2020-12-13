@@ -1,7 +1,11 @@
 :global(#index) {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 :global(.container) {
-    width: 100%;
+  width: 100%;
+}
+
+:global(.align-center) {
+  text-align: center;
 }

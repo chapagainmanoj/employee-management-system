@@ -1,45 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dawn } from "../helper/assetHelper";
 import styles from "./loginjoin.css";
+import { object, shape, string, number } from "yup";
+import { Form } from "../libs/FormComponent";
+
+const formSchema = object().shape({
+  username: string().required(),
+  password: string().required(),
+});
+const formFields = [
+  { name: "username", type: "text", label: "Username" },
+  { name: "password", type: "password", label: "Password" },
+  {
+    name: "agree",
+    type: "checkbox",
+    label: "I agree to the Terms and Conditions",
+  },
+];
+const defaults = {};
+const formActions = [{ type: "submit", buttonClass: "basic teal" }];
 
 const Register = () => {
-  console.log(Dawn);
+  const [filter, setFilter] = useState(defaults);
+  const [remoteChange, setRemoteChange] = useState(null);
+  const [formError, setFormError] = useState(null);
+
+  const onSubmit = (data) => {
+    console.log("submit", data);
+  };
   return (
     <div className={styles.loginjoin}>
       <div
         className={styles.left}
         style={{
-          backgroundImage: "url(http://192.168.52.28:8000/assets/dawn.jpg)",
+          backgroundImage: `url(${Dawn})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "bottom",
         }}
-      >
-        <h5 className={styles.title}>Employee Management System</h5>
-      </div>
+      ></div>
       <div className={styles.right}>
-        <div className="ui padded basic segment">
-          <h2 className="ui header teal">MILKYWAY</h2>
-          <h4>Register</h4>
-          <form className="ui form">
-            <div className="field">
-              <label>First Name</label>
-              <input type="text" name="first-name" placeholder="First Name" />
+        <div className={`${styles.header}`}>
+          <h1 className={`ui header teal`}>MILKY WAY</h1>
+          Employee Management System
+        </div>
+        <div className="ui grid">
+          <div className="ten wide computer sixteen wide tablet sixteen wide mobile column">
+            <div
+              className={`ui padded basic segment ${styles.mg150} ${styles.pd50}`}
+            >
+              <h3 className="ui header teal">Register</h3>
+              <Form
+                onSubmit={onSubmit}
+                fieldUpdater={remoteChange}
+                extraError={formError}
+                fields={formFields}
+                actions={formActions}
+                formClass={styles.mgT30}
+                buttonClass="basic teal"
+              />
             </div>
-            <div className="field">
-              <label>Last Name</label>
-              <input type="text" name="last-name" placeholder="Last Name" />
-            </div>
-            <div className="field">
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label>I agree to the Terms and Conditions</label>
-              </div>
-            </div>
-            <button className="ui button" type="submit">
-              Submit
-            </button>
-          </form>
+          </div>
+        </div>
+        <div className={`${styles.pd50} ${styles.mgT30}`}>
+          Have account ?{" "}
+          <a className={`${styles.link}`} href="/login">
+            LOGIN
+          </a>
         </div>
       </div>
     </div>
