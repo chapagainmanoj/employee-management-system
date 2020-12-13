@@ -3,3 +3,11 @@ npm-debug.log
 yarn-error.log
 package-log.json
 assets/
+virtualenvs/
+__pycache__/
+*.sqlite3
+media/
+*.pyc
+*.db
+*.pid
+*.sqlite3
