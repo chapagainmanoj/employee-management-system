@@ -1,0 +1,7 @@
+:global(#index) {
+    min-height: 100vh;
+}
+
+:global(.container) {
+    width: 100%;
+}

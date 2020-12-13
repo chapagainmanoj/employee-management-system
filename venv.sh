@@ -5,8 +5,9 @@ deactivate 2> /dev/null
 if [ -d "${DIRECTORY}" ]; then
     source ${DIRECTORY}/bin/activate
 else
-    virtualenv -p `which python3` ${DIRECTORY}
+    python3 -m venv ${DIRECTORY}
     source ${DIRECTORY}/bin/activate
 fi
 
-export CDN_HOST=http://192.168.52.28:8000/
+export CDN_HOST=http://localhost:8000/assets
+export NODE_OPTIONS="--max-old-space-size=8192"

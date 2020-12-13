@@ -2,31 +2,32 @@
 
 const path = require("path");
 const projectRoot = path.dirname(__dirname);
-const TerserPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const CDN_HOST = process.env.CDN_HOST;
 
 module.exports = {
-  mode: 'production',
-  entry: path.join(projectRoot, "src/index.js"),
+  entry: {
+    app: path.join(projectRoot, "src/index.js"),
+    loginjoin: path.join(projectRoot, "src/loginjoin/index.js"),
+  },
   output: {
-    filename: "app.js",
+    filename: "[name].js",
     path: path.join(projectRoot, "assets/"),
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/],
         use: {
           loader: "babel-loader",
         },
       },
       {
         test: /\.(less)$/,
+        exclude: [/node_modules/],
         use: [
           MiniCssExtractPlugin.loader,
           // {
@@ -42,6 +43,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        exclude: [/node_modules/],
         use: [
           {
             loader: "style-loader",
@@ -49,8 +51,10 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              modules: true,
-              importLoaders: 1,
+              modules: {
+                localIdentName: "[local]--[hash:base64:5]",
+              },
+              importLoaders: 2,
               sourceMap: true,
             },
           },
@@ -60,7 +64,7 @@ module.exports = {
         test: /\.(png|svg|jpg|gif|eot|ttf|woff|woff2)$/,
         loader: "file-loader",
         options: {
-          name: '[name].[ext]',
+          name: "[name].[ext]",
           publicPath: `${CDN_HOST}/assets/`,
         },
       },
@@ -73,10 +77,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
-      filename: "./index.html"
-    })
+      filename: "./index.html",
+    }),
   ],
-  optimization: {
-    minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
-  },
 };
