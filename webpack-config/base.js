@@ -9,8 +9,8 @@ const CDN_HOST = process.env.CDN_HOST;
 
 module.exports = {
   entry: {
-    app: path.join(projectRoot, "src/index.js"),
-    loginjoin: path.join(projectRoot, "src/loginjoin/index.js"),
+    app: path.join(projectRoot, "app/index.js"),
+    loginjoin: path.join(projectRoot, "app/loginjoin/index.js"),
   },
   output: {
     filename: "[name].js",

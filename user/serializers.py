@@ -1,12 +1,14 @@
 import re
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['id', 'username', 'email']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name',  'is_staff', 'is_superuser']
+        # fields = '__all__'
 
 class UsernameSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -33,3 +35,11 @@ class UserRegisterationSerializer(serializers.Serializer):
     name = serializers.CharField(required=True)
     email = serializers.EmailField(required=False, allow_blank=True)
     password = serializers.CharField(required=True)
+
+    def create(self, data):
+        try:
+            user = get_user_model().objects.create_user(**data)
+        except IntegrityError:
+            raise serializers.ValidationError({"username": "User already exists"})
+
+        return user

@@ -1,7 +1,8 @@
-from rest_framework import viewsets
 from django.contrib.auth import (
     get_user_model, authenticate, login, logout
 )
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from .serializers import (
     UserSerializer, LoginSerializer, UserRegisterationSerializer
 )
@@ -24,7 +25,7 @@ class UserAPI(viewsets.ModelViewSet):
     #     serializer = UserSerializer(user)
     #     return Response(serializer.data)
 
-@api_view(["POST"]
+@api_view(["POST"])
 def login(request, *args, **kwargs):
     login_user = LoginSerializer(data=request.data)
 
@@ -35,13 +36,13 @@ def login(request, *args, **kwargs):
         )
         login(request, user)
 
-@api_view(["POST"]
+@api_view(["POST"])
 def logout(request, *args, **kwargs):
     if request.user.is_authenticated:
         user = request.user
         logout(request)
 
-@api_view(["POST"]
+@api_view(["POST"])
 def register(request, *args, **kwargs):
     user_data = request.data.copy()
     if user_data.get('email') == '':

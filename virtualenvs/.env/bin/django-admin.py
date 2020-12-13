@@ -1,4 +1,4 @@
-#!/home/manoj/Projects/mars/virtualenvs/.env/bin/python3
+#!/home/manoj/Projects/milkyway/virtualenvs/.env/bin/python3
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

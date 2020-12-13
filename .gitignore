@@ -5,6 +5,8 @@ package-log.json
 assets/
 virtualenvs/
 __pycache__/
+__pycache__
+tests
 *.sqlite3
 media/
 *.pyc
