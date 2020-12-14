@@ -18,13 +18,13 @@ const routes = [
   },
   {
     path: "/user/create/:idx?",
-    title: "User List",
+    title: "Create User",
     exact: true,
     component: UserCreate,
   },
   {
-    path: "/profile/create",
-    title: "Profile",
+    path: "/profile/create/:idx?",
+    title: "Create Profile",
     exact: true,
     component: ProfileCreate,
   },

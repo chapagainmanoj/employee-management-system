@@ -41,7 +41,7 @@ const formFields = [
   { name: "primary_address", type: "text", label: "Primary Address" },
   { name: "seconday_address", type: "text", label: "Secondary Address" },
   { name: "hobbies", type: "textarea", label: "Hobbies" },
-  //   { name: "file", type: "file", label: "Profile pic" },
+  { name: "file", type: "file", label: "Profile pic" },
 ];
 
 const defaults = {};

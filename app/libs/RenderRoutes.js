@@ -15,7 +15,7 @@ export const RenderRoutes = (props) => {
             strict={route.strict}
             render={(data) => {
               let title = route.tabTitle || route.title;
-              document.title = title ? `${title} - Mars` : "Mars";
+              document.title = title ? `${title} - Milky Way` : "Milky Way";
               let Component = route.component;
               return <Component {...props} {...data} />;
             }}

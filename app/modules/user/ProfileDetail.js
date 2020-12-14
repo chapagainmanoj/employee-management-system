@@ -2,11 +2,23 @@ import React, { useEffect, useState } from "react";
 import { request } from "../../libs/request";
 import { Loader } from "../components/Loader";
 import { NoDetails } from "../components/NoDetails";
+import { Link } from "react-router-dom";
 import style from "./user.css";
 
 const ProfileDetail = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const verify = (e) => {
+    e.preventDefault();
+    console.log("verifing");
+  };
+
+  const reject = (e) => {
+    e.preventDefault();
+    console.log("reaject");
+  };
+
   useEffect(() => {
     setLoading(true);
     request({
@@ -113,11 +125,20 @@ const ProfileDetail = () => {
       </div>
       {_k.is_staff ? (
         <React.Fragment>
-          <div className="ui primary button">Verify</div>
-          <div className="ui primary button">Reject</div>
+          <div onClick={verify} className="ui primary button">
+            Verify
+          </div>
+          <div onClick={reject} className="ui primary button">
+            Reject
+          </div>
         </React.Fragment>
       ) : (
-        <div className="ui primary button">Update</div>
+        <Link
+          to={`/profile/create/${profile.id}`}
+          className="ui primary button"
+        >
+          Update
+        </Link>
       )}
     </React.Fragment>
   );
