@@ -3,10 +3,12 @@ import { Dawn } from "../helper/assetHelper";
 import { Form } from "../libs/FormComponent";
 import styles from "./loginjoin.css";
 import { object, shape, string, number } from "yup";
+import { REQUIED } from "../libs/messages";
+import { request } from "../libs/request";
 
 const formSchema = object().shape({
-  username: string().required(),
-  password: string().required(),
+  username: string().required(REQUIED),
+  password: string().required(REQUIED),
 });
 const formFields = [
   { name: "username", type: "text", label: "Username" },
@@ -22,6 +24,19 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log("submit", data);
+    request({
+      name: "auth-login",
+      method: "post",
+      data: data,
+    })
+      .then((resp) => {
+        if (resp.status == 200) {
+          window.location.replace("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   return (
@@ -47,6 +62,7 @@ const Login = () => {
             >
               <h3 className="ui header teal">Login</h3>
               <Form
+                validation={formSchema}
                 onSubmit={onSubmit}
                 fieldUpdater={remoteChange}
                 extraError={formError}

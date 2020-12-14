@@ -70,7 +70,7 @@ module.exports = {
         loader: "file-loader",
         options: {
           name: "[name].[ext]",
-          publicPath: `${CDN_HOST}/assets/`,
+          publicPath: `${CDN_HOST}/`,
         },
       },
     ],

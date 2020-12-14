@@ -51,6 +51,7 @@ const Register = () => {
             >
               <h3 className="ui header teal">Register</h3>
               <Form
+                validation={formSchema}
                 onSubmit={onSubmit}
                 fieldUpdater={remoteChange}
                 extraError={formError}

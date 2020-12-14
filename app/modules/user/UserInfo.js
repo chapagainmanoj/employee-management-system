@@ -24,11 +24,11 @@ const UserInfo = () => {
       </div>
       <div className="ui padded placeholder segment">
         <div className="ui icon header">
-          <i className="pdf file outline icon"></i>
-          User details has not subbmitted.
+          <i className="file alternate outline icon teal"></i>
+          Details has not been subbmitted.
         </div>
-        <Link to="/user/create" className="ui primary button">
-          Add Details
+        <Link to="/user/create" className="ui teal basic button">
+          <i className="icon plus"></i>Add Details
         </Link>
       </div>
       <div className="ui padded segment">

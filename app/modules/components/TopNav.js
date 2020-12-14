@@ -2,7 +2,7 @@ import React from "react";
 
 const TopNav = () => {
   return (
-    <div className="ui fixed borderless huge menu inverted primary">
+    <div className="ui fixed borderless huge menu inverted teal">
       <div className="ui container grid">
         <div className="row">
           <a href="" className="header item">

@@ -24,9 +24,9 @@ class UsernameSerializer(serializers.Serializer):
                 user = get_user_model().objects.get(username=username)
         except get_user_model().DoesNotExist:
             pass
-
         if not user:
             raise serializers.ValidationError(message)
+        return user.username
 
 class LoginSerializer(UsernameSerializer):
     password = serializers.CharField()
