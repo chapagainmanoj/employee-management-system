@@ -40,6 +40,6 @@ class ProfileAPI(viewsets.ModelViewSet):
             serializer = self.get_serializer(my_profile)
             my_profile_data = serializer.data
         except Profile.DoesNotExist:
-            my_profile_data = {}
+            pass
         return Response(my_profile_data)
         

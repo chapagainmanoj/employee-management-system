@@ -11,3 +11,9 @@
   padding-bottom: 30px;
   margin-bottom: 50px;
 }
+
+:global(.ui):global(.segment).bottomSpace {
+  padding-top: 30px;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+}

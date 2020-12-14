@@ -8,8 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
     # profile = ProfileSerializer()
     class Meta:
         model = get_user_model()
-        fields = ['id', 'username', 'email', 'is_active', 'first_name', 'last_name',  'is_staff']
+        fields = ['id', 'username', 'email', 'password', 'is_active', 'first_name', 'last_name',  'is_staff']
         read_only_fields = ['is_active']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
         # fields = '__all__'
 
 class UsernameSerializer(serializers.Serializer):
@@ -34,7 +37,9 @@ class LoginSerializer(UsernameSerializer):
     password = serializers.CharField()
 
 class UserRegisterationSerializer(serializers.Serializer):
-    name = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=False, allow_blank=True)
+    last_name = serializers.CharField(required=False, allow_blank=True)
+    username = serializers.CharField(required=True)
     email = serializers.EmailField(required=False, allow_blank=True)
     password = serializers.CharField(required=True)
 

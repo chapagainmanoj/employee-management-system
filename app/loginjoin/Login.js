@@ -14,16 +14,13 @@ const formFields = [
   { name: "username", type: "text", label: "Username" },
   { name: "password", type: "password", label: "Password" },
 ];
-const defaults = {};
 const formActions = [{ type: "submit", buttonClass: "basic teal" }];
 
 const Login = () => {
-  const [filter, setFilter] = useState(defaults);
   const [remoteChange, setRemoteChange] = useState(null);
   const [formError, setFormError] = useState(null);
 
   const onSubmit = (data) => {
-    console.log("submit", data);
     request({
       name: "auth-login",
       method: "post",

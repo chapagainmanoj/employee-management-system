@@ -1,6 +1,7 @@
 from django.contrib.auth import (
     get_user_model
 )
+from rest_framework.permissions import IsAdminUser
 from django.contrib import auth
 # from django.contrib.auth import login
 import json
@@ -18,6 +19,7 @@ class UserAPI(viewsets.ModelViewSet):
     """     
     serializer_class = UserSerializer
     queryset = get_user_model().objects.all()
+    permission_classes = [IsAdminUser]
 
 @api_view(["POST"])
 def login(request, *args, **kwargs):

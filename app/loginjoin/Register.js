@@ -1,32 +1,58 @@
 import React, { useState } from "react";
 import { Dawn } from "../helper/assetHelper";
 import styles from "./loginjoin.css";
-import { object, shape, string, number } from "yup";
+import { object, string, boolean } from "yup";
 import { Form } from "../libs/FormComponent";
+import { REQUIED } from "../libs/messages";
+import { request } from "../libs/request";
 
 const formSchema = object().shape({
-  username: string().required(),
-  password: string().required(),
+  first_name: string(),
+  last_name: string(),
+  username: string().required(REQUIED),
+  email: string(),
+  password: string().required(REQUIED),
+  agree: boolean().required(REQUIED),
 });
 const formFields = [
+  [
+    { name: "first_name", type: "text", label: "First Name" },
+    { name: "last_name", type: "text", label: "Last Name" },
+  ],
   { name: "username", type: "text", label: "Username" },
+  { name: "email", type: "text", label: "Email" },
   { name: "password", type: "password", label: "Password" },
   {
     name: "agree",
     type: "checkbox",
+    value: true,
     label: "I agree to the Terms and Conditions",
   },
 ];
-const defaults = {};
+
+const defaults = { agree: true };
+
 const formActions = [{ type: "submit", buttonClass: "basic teal" }];
 
 const Register = () => {
-  const [filter, setFilter] = useState(defaults);
   const [remoteChange, setRemoteChange] = useState(null);
   const [formError, setFormError] = useState(null);
 
   const onSubmit = (data) => {
-    console.log("submit", data);
+    request({
+      name: "user-register",
+      method: "post",
+      data: data,
+    })
+      .then((resp) => {
+        console.log(resp);
+        if (resp.status == 201) {
+          window.location.replace("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
   return (
     <div className={styles.loginjoin}>
@@ -51,6 +77,7 @@ const Register = () => {
             >
               <h3 className="ui header teal">Register</h3>
               <Form
+                defaults={defaults}
                 validation={formSchema}
                 onSubmit={onSubmit}
                 fieldUpdater={remoteChange}

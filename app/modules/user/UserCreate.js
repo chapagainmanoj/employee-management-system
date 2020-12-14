@@ -1,39 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { string, object, boolean } from "yup";
+import { Form } from "../../libs/FormComponent";
+import { REQUIED } from "../../libs/messages";
+import { request } from "../../libs/request";
+import styles from "./user.css";
 
-const UserCreate = () => {
+const formSchema = object().shape({
+  username: string().required(REQUIED),
+  email: string().required(REQUIED),
+  password: string().required(REQUIED),
+  first_name: string(),
+  last_name: string(),
+  is_staff: boolean(),
+});
+const formFields = [
+  [
+    {
+      name: "first_name",
+      type: "text",
+      label: "First Name",
+      placeholder: "Enter First Name",
+    },
+    {
+      name: "last_name",
+      type: "text",
+      label: "Last Name",
+      placeholder: "Enter Last Name",
+    },
+  ],
+  {
+    name: "username",
+    type: "text",
+    label: "Username",
+    placeholder: "Enter Username",
+  },
+  {
+    name: "email",
+    type: "text",
+    label: "Email",
+    placeholder: "Enter User Email",
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    placeholder: "Set Password",
+  },
+  { name: "is_staff", type: "checkbox", label: "Is Staff" },
+];
+const defaults = {};
+const formActions = [{ type: "submit", buttonClass: "basic teal" }];
+
+const UserCreate = ({ match }) => {
+  const [user, setUser] = useState(defaults);
+  const [remoteChange, setRemoteChange] = useState(null);
+  const [formError, setFormError] = useState(null);
+
+  useEffect(() => {}, [match.params.idx]);
+
+  const onSubmit = (data) => {
+    console.log("submit", data);
+    request({
+      name: match.params.idx ? "user-list" : "user-list",
+      method: "post",
+      id: match.params.idx,
+      data: data,
+    })
+      .then((resp) => {
+        if (resp.status == 200) {
+          window.location.replace("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
   return (
-    <div className="ui padded segment">
-      <h4>User Create</h4>
-      <form className="ui form">
-        <h4 class="ui dividing header">Personal Information</h4>
-        <div className="field">
-          <label>First Name</label>
-          <input type="text" name="first-name" placeholder="First Name" />
-        </div>
-        <div className="field">
-          <label>Last Name</label>
-          <input type="text" name="last-name" placeholder="Last Name" />
-        </div>
-        <h4 class="ui dividing header">Academic Information</h4>
-        <div className="field">
-          <div className="ui checkbox">
-            <input type="checkbox" />
-            <label>I agree to the Terms and Conditions</label>
-          </div>
-        </div>
-        <h4 class="ui dividing header">Work Experiance Information</h4>
-        <div className="field">
-          <label>First Name</label>
-          <input type="text" name="first-name" placeholder="First Name" />
-        </div>
-        <div className="field">
-          <label>Last Name</label>
-          <input type="text" name="last-name" placeholder="Last Name" />
-        </div>
-        <button className="ui button" type="submit">
-          Submit
-        </button>
-      </form>
+    <div className={`ui padded segment ${styles.bottomSpace}`}>
+      <h4>Create User</h4>
+      <Form
+        validation={formSchema}
+        onSubmit={onSubmit}
+        fieldUpdater={remoteChange}
+        extraError={formError}
+        fields={formFields}
+        actions={formActions}
+      />
     </div>
   );
 };
