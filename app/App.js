@@ -1,14 +1,14 @@
 import React from "react";
 import { RenderRoutes } from "./libs/RenderRoutes";
 import { TestForm, TopNav, GlobalErrorBoundary } from "./modules/components";
-import { UserInfo, UserList, UserCreate } from "./modules/user";
+import { UserHome, UserList, UserCreate } from "./modules/user";
 
 const routes = [
   {
     path: "/",
     title: "Home",
     exact: true,
-    component: UserInfo,
+    component: UserHome,
   },
   {
     path: "/user/list",
@@ -17,7 +17,7 @@ const routes = [
     component: UserList,
   },
   {
-    path: "/user/create",
+    path: "/user/create/:idx?",
     title: "User List",
     exact: true,
     component: UserCreate,

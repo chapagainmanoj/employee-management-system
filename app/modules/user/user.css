@@ -1,0 +1,13 @@
+:global(.ui):global(.items) > :global(.item) > :global(.image) > .profileImage {
+  width: 90px;
+  height: 90px;
+  border: 1px solid;
+  border-radius: 50px;
+  margin: auto;
+}
+
+:global(.ui):global(.bottom):global(.attached).bottomSpace {
+  padding-top: 20px;
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+}

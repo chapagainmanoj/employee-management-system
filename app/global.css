@@ -9,3 +9,7 @@
 :global(.align-center) {
   text-align: center;
 }
+:global(.ui):global(.segment):global(.borderless) {
+  border: none;
+  box-shadow: none;
+}

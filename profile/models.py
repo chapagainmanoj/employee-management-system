@@ -3,9 +3,10 @@ from django.contrib.auth import get_user_model
 
 class Profile(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, db_index=True)
+    designation = models.CharField(max_length=100, blank=False, null=False)
     dob = models.DateField(max_length=25)
     primary_address = models.CharField(max_length=100)
-    seconary_adderss = models.CharField(max_length=100, blank=True, null=True)
+    secondary_address = models.CharField(max_length=100, blank=True, null=True)
 
     MALE = 'Male'
     FEMALE = 'Female'

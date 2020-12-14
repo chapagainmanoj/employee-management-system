@@ -19,18 +19,6 @@ class UserAPI(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = get_user_model().objects.all()
 
-    # def verified_user(method='POST'):
-
-    #     return Response(
-    #         users: User.objects.filter(verified=True)
-    #     )
-    
-    # def my_profile(method: "GET"):
-    #     return Response(
-    #         user: ''
-    #     )
-        
-
 @api_view(["POST"])
 def login(request, *args, **kwargs):
     login_user = LoginSerializer(data=request.data)
