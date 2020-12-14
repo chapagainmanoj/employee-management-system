@@ -5,7 +5,7 @@ const NoDetails = ({ addLink }) => {
   return (
     <div className="ui padded placeholder segment borderless">
       <div className="ui icon header">
-        <i className="file alternate outline icon teal"></i>
+        <i className="file alternate outline icon"></i>
         No detail was found.
       </div>
       {addLink && (

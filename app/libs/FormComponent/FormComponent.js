@@ -352,7 +352,6 @@ export function Select({
     if (!options) return;
     let value = watch(name);
     if (value) {
-      console.log(value, options, "select");
       let item = options.find((i) => i.idx === value || i.value === value);
     }
   }, [watch(name), options]);
@@ -371,7 +370,7 @@ export function Select({
           {placeholder && <option value="">{placeholder}</option>}
           {options &&
             options.map((item, index) => (
-              <option key={item.key || index} value={index}>
+              <option key={item.key || index} value={item.value}>
                 {item.text || item.name}
               </option>
             ))}

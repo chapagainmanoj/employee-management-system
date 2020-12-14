@@ -1,7 +1,7 @@
 import React from "react";
 import { RenderRoutes } from "./libs/RenderRoutes";
 import { TestForm, TopNav, GlobalErrorBoundary } from "./modules/components";
-import { UserHome, UserList, UserCreate } from "./modules/user";
+import { ProfileCreate, UserHome, UserList, UserCreate } from "./modules/user";
 
 const routes = [
   {
@@ -23,10 +23,10 @@ const routes = [
     component: UserCreate,
   },
   {
-    path: "/testform",
-    title: "User List",
+    path: "/profile/create",
+    title: "Profile",
     exact: true,
-    component: TestForm,
+    component: ProfileCreate,
   },
 ];
 

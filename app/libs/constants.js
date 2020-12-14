@@ -6,5 +6,7 @@ export const URLS = {
   "profile-pending": "/api/profile/pending/",
   "profile-verified": "/api/profile/verified/",
   "profile-list": "/api/profile/",
+  "profile-detail": "/api/profile/:idx/",
   "user-list": "/api/user/",
+  "user-detail": "/api/user/:idx/",
 };

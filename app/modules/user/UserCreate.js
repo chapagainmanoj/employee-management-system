@@ -61,7 +61,7 @@ const UserCreate = ({ match }) => {
   const onSubmit = (data) => {
     console.log("submit", data);
     request({
-      name: match.params.idx ? "user-list" : "user-list",
+      name: match.params.idx ? "user-detail" : "user-list",
       method: "post",
       id: match.params.idx,
       data: data,
@@ -77,8 +77,8 @@ const UserCreate = ({ match }) => {
   };
 
   return (
-    <div className={`ui padded segment ${styles.bottomSpace}`}>
-      <h4>Create User</h4>
+    <div className={`ui segment borderless ${styles.bottomSpace}`}>
+      <h4 className="ui header">Create User</h4>
       <Form
         validation={formSchema}
         onSubmit={onSubmit}
@@ -86,6 +86,7 @@ const UserCreate = ({ match }) => {
         extraError={formError}
         fields={formFields}
         actions={formActions}
+        formClass="mgTop20"
       />
     </div>
   );

@@ -13,3 +13,7 @@
   border: none;
   box-shadow: none;
 }
+
+:global(.mgTop20) {
+  margin-top: 20px !important;
+}

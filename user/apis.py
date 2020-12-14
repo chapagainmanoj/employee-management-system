@@ -1,6 +1,7 @@
 from django.contrib.auth import (
     get_user_model
 )
+from django.db import IntegrityError
 from rest_framework.permissions import IsAdminUser
 from django.contrib import auth
 # from django.contrib.auth import login
@@ -20,6 +21,18 @@ class UserAPI(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = get_user_model().objects.all()
     permission_classes = [IsAdminUser]
+
+    def create(self, request):
+        userdata = UserSerializer(data = request.data)
+        if (userdata.is_valid()):
+            try:
+                user = get_user_model().objects.create_user(**userdata.validated_data)
+                # user.set_password(userdata.validated_data.get("password"))
+            except IntegrityError:
+                raise Response({"username": "User already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(userdata.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "User successfully created."})
 
 @api_view(["POST"])
 def login(request, *args, **kwargs):

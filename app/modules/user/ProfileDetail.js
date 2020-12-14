@@ -25,7 +25,7 @@ const ProfileDetail = () => {
       });
   }, []);
   if (loading) return <Loader />;
-  if (!profile) return <NoDetails addLink="/user/create" />;
+  if (!profile) return <NoDetails addLink="/profile/create" />;
   return (
     <React.Fragment>
       <div className="ui padded segment borderless">
