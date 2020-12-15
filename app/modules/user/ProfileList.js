@@ -3,6 +3,16 @@ import { request } from "../../libs/request";
 import { Loader } from "../components";
 import { Table } from "../components/Table";
 
+const Action = () => {
+  return (
+    <div className="ui icon basic small buttons">
+      <div className="ui icon button">
+        <i className="icon eye" />
+      </div>
+    </div>
+  );
+};
+
 const column = [
   { label: "Name", key: "name" },
   { label: "Designation", key: "designation" },
@@ -46,6 +56,7 @@ const ProfileList = () => {
           numbered
           columnSchema={_k.is_staff ? adminColumn : column}
           collection={userList}
+          actions={<Action />}
         />
       )}
     </React.Fragment>
