@@ -11,4 +11,4 @@ fi
 
 export CDN_HOST=http://localhost:8000/assets
 export NODE_OPTIONS="--max-old-space-size=8192"
-export DJANGO_SETTINGS_MODULE="milkyway.settings.dev"
+export DJANGO_SETTINGS_MODULE="milkyway.settings.prod"

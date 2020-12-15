@@ -1,1 +1,3 @@
-web: gunicorn milkyway.wsgi --log-file
+web: gunicorn milkyway.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
