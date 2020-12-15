@@ -4,7 +4,7 @@ from milkyway.settings.common import *
 DEBUG = True
 
 
-ALLOWED_HOSTS += ['127.0.0.1', 'milkyway2020.herokuapp.com']
+ALLOWED_HOSTS += ['127.0.0.1', 'milkyway2020.herokuapp.com', 'localhost', '192.168.52.28']
 
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
