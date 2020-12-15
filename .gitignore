@@ -11,4 +11,4 @@ media/
 *.pid
 *.sqlite3
 .env
-virtualenvs/
+virtualenvs/.env
