@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack-dev-server --hot --config webpack-config/dev.js",
-    "build": "webpack --config webpack-config/widget.js --mode production",
+    "build": "webpack --config webpack-config/prod.js --mode production",
     "watch": "webpack --config webpack-config/dev.js --watch --watch-poll"
   },
   "author": "Manoj Chapagain",
