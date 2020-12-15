@@ -9,6 +9,6 @@ else
     source ${DIRECTORY}/bin/activate
 fi
 
-export CDN_HOST=http://localhost:8000/assets
+export CDN_HOST=https://milkyway2020.herokuapp.com/assets
 export NODE_OPTIONS="--max-old-space-size=8192"
 export DJANGO_SETTINGS_MODULE="milkyway.settings.prod"
