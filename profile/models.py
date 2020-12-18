@@ -47,6 +47,11 @@ class Profile(models.Model):
     remarks = models.TextField(blank=True, null=True)
     hobbies = models.TextField(blank=True, null=True)
 
+    def verify (self, request=None, remarks=''):
+        self.status = 'Verified'
+        self.remarks = remarks
+        self.save()
+
     def __str__(self):
         return f"{self.name}"
 

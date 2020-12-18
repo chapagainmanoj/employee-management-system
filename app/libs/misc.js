@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export const deepFlatten = (arr) =>
   [].concat(...arr.map((v) => (Array.isArray(v) ? deepFlatten(v) : v)));
 
@@ -57,3 +59,19 @@ export const jsonDateToStrWithTime = (jsonDate) => {
   let timewithval = timeWithAmPM(time);
   return `${day}, ${year} - ${timewithval}`;
 };
+
+export function parseFormError(data) {
+  let errors = [];
+  Object.keys(data).forEach((err) => {
+    if (err === "detail") {
+      toast(data[err], { type: "error" });
+      return;
+    }
+    if (Array.isArray(data[err])) {
+      errors.push({ name: err, message: data[err].join(" ") });
+    } else {
+      errors.push({ name: err, message: data[err] });
+    }
+  });
+  return errors;
+}

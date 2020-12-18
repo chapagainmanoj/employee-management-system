@@ -3,7 +3,7 @@
 const path = require("path");
 const projectRoot = path.dirname(__dirname);
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const WebpackNotifierPlugin = require("webpack-notifier");
 
 const CDN_HOST = process.env.CDN_HOST;
 
@@ -21,13 +21,15 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: [/node_modules/],
-        use: {
-          loader: "babel-loader",
+        include: [path.join(projectRoot, "app")],
+        loader: "babel-loader",
+        options: {
+          cacheDirectory: true,
         },
       },
       {
         test: /\.(less)$/,
-        exclude: [/node_modules/],
+        include: [path.join(projectRoot, "semantic-ui")],
         use: [
           MiniCssExtractPlugin.loader,
           // {
@@ -45,9 +47,7 @@ module.exports = {
         test: /\.css$/,
         exclude: [/node_modules/],
         use: [
-          {
-            loader: "style-loader",
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
@@ -80,9 +80,6 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html",
-    }),
+    new WebpackNotifierPlugin({ alwaysNotify: true }),
   ],
 };

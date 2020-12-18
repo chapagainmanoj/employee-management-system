@@ -5,6 +5,7 @@ import { object, string, boolean } from "yup";
 import { Form } from "../libs/FormComponent";
 import { REQUIED } from "../libs/messages";
 import { request } from "../libs/request";
+import { parseFormError } from "../libs/misc";
 
 const formSchema = object().shape({
   first_name: string(),
@@ -32,7 +33,9 @@ const formFields = [
 
 const defaults = { agree: true };
 
-const formActions = [{ type: "submit", buttonClass: "basic teal" }];
+const formActions = [
+  { type: "submit", buttonClass: "basic teal", label: "REGISTER" },
+];
 
 const Register = () => {
   const [remoteChange, setRemoteChange] = useState(null);
@@ -51,7 +54,8 @@ const Register = () => {
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
+        error.response.data &&
+          setFormError(parseFormError(error.response.data));
       });
   };
   return (

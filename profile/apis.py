@@ -33,7 +33,6 @@ class ProfileAPI(viewsets.ModelViewSet):
     
     @action(detail=False, methods=["GET"])
     def my(self, request):
-        print(request.user.id, 'my profile')
         my_profile_data = None
         try:
             my_profile = Profile.objects.get(user__id=request.user.id)
@@ -42,4 +41,13 @@ class ProfileAPI(viewsets.ModelViewSet):
         except Profile.DoesNotExist:
             pass
         return Response(my_profile_data)
-        
+
+    @action(methods=["post"], detail=True)
+    def verify(self, request, id):
+        remarks = request.data.get('remarks')
+        try:
+            profile = Profile.objects.get(user__id=request.user.id)
+            profile_data = self.get_serializer(profile)
+        except Profile.DoesNotExist:
+            pass
+        return Response(profile_data)

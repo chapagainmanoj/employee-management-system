@@ -5,6 +5,7 @@ import styles from "./loginjoin.css";
 import { object, shape, string, number } from "yup";
 import { REQUIED } from "../libs/messages";
 import { request } from "../libs/request";
+import { parseFormError } from "../libs/misc";
 
 const formSchema = object().shape({
   username: string().required(REQUIED),
@@ -14,7 +15,9 @@ const formFields = [
   { name: "username", type: "text", label: "Username" },
   { name: "password", type: "password", label: "Password" },
 ];
-const formActions = [{ type: "submit", buttonClass: "basic teal" }];
+const formActions = [
+  { type: "submit", buttonClass: "basic teal", label: "LOGIN" },
+];
 
 const Login = () => {
   const [remoteChange, setRemoteChange] = useState(null);
@@ -29,10 +32,16 @@ const Login = () => {
       .then((resp) => {
         if (resp.status == 200) {
           window.location.replace("/");
+        } else {
+          console.log("resp", "not 200");
         }
       })
       .catch((error) => {
-        console.log(error.response.data);
+        if (error.response.data) {
+          let formErr = parseFormError(error.response.data);
+          console.log(formErr);
+          setFormError(formErr);
+        }
       });
   };
 

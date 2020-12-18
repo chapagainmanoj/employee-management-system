@@ -6,6 +6,7 @@ let base = require("./base.js");
 let updates = {
   mode: "development",
   devtool: "source-map",
+  watch: true,
   watchOptions: {
     ignored: ["node_modules/**"],
   },

@@ -53,7 +53,11 @@ export function Form({
   }, [fieldUpdater]);
 
   useEffect(() => {
-    extraError && setError(extraError);
+    console.log(extraError, "extra error");
+    extraError &&
+      extraError.forEach((i) => {
+        setError(i.name, { type: "manual", message: i.message });
+      });
   }, [extraError]);
 
   return (
