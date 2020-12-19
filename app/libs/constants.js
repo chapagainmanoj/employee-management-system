@@ -7,6 +7,10 @@ export const URLS = {
   "profile-verified": "/api/profile/verified/",
   "profile-list": "/api/profile/",
   "profile-detail": "/api/profile/:idx/",
+  "profile-verify": "/api/profile/:idx/verify/",
+  "profile-reject": "/api/profile/:idx/reject/",
   "user-list": "/api/user/",
   "user-detail": "/api/user/:idx/",
+  "academic-list": "/api/academic/",
+  "workexperience-list": "/api/workexperience/",
 };

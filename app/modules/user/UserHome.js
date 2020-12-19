@@ -24,7 +24,7 @@ const noteryOperator = (booleanValue) => {
   return booleanValue;
 };
 
-const UserHome = () => {
+const UserHome = (props) => {
   const [active, setActive] = useState(_k.is_staff ? "staff" : "profile");
   let ActiveComponent = MENU.find((i) => i.key === active).component;
   return (
@@ -56,15 +56,15 @@ const UserHome = () => {
             </div>
           )}
           <div className="item">
-            <div class="ui transparent icon input">
+            <div className="ui transparent icon input">
               <input type="text" placeholder="Search staffs..." />
-              <i class="search link icon"></i>
+              <i className="search link icon"></i>
             </div>
           </div>
         </div>
       </div>
       <div className={`ui bottom attached segment ${styles.bottomSpace}`}>
-        {<ActiveComponent />}
+        {<ActiveComponent {...props} />}
       </div>
     </React.Fragment>
   );

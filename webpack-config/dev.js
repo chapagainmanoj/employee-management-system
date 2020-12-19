@@ -1,6 +1,8 @@
 "use strict";
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WebpackNotifierPlugin = require("webpack-notifier");
+
 let base = require("./base.js");
 
 let updates = {
@@ -20,6 +22,7 @@ let updates = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
+    new WebpackNotifierPlugin({ alwaysNotify: true, emoji: true }),
   ],
 };
 

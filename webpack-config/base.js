@@ -3,7 +3,6 @@
 const path = require("path");
 const projectRoot = path.dirname(__dirname);
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const WebpackNotifierPlugin = require("webpack-notifier");
 
 const CDN_HOST = process.env.CDN_HOST;
 
@@ -80,6 +79,5 @@ module.exports = {
       filename: "[name].css",
       chunkFilename: "[id].css",
     }),
-    new WebpackNotifierPlugin({ alwaysNotify: true }),
   ],
 };

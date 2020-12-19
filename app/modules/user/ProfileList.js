@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import { request } from "../../libs/request";
 import { Loader } from "../components";
 import { Table } from "../components/Table";
+import { Link } from "react-router-dom";
 
-const Action = () => {
+const Action = ({ record }) => {
   return (
     <div className="ui icon basic small buttons">
-      <div className="ui icon button">
+      <Link to={`/profile/detail/${record.id}`} className="ui icon button">
         <i className="icon eye" />
-      </div>
+      </Link>
+      {_k.is_staff && (
+        <Link to={`/profile/create/${record.id}`} className="ui icon button">
+          <i className="icon edit" />
+        </Link>
+      )}
     </div>
   );
 };

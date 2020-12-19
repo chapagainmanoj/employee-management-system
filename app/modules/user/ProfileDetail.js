@@ -4,37 +4,76 @@ import { Loader } from "../components/Loader";
 import { NoDetails } from "../components/NoDetails";
 import { Link } from "react-router-dom";
 import style from "./user.css";
+import { object, string } from "yup";
+import { REQUIED } from "../../libs/messages";
+import { Form } from "../../libs/FormComponent";
+import { toast } from "react-toastify";
 
-const ProfileDetail = () => {
+const rejectSchema = object().shape({
+  remarks: string().required(REQUIED),
+});
+
+const ProfileDetail = ({ match }) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [verifing, setVerifing] = useState(false);
+  const [rejecting, setRejecting] = useState(false);
 
-  const verify = (e) => {
+  const verify = async (e) => {
     e.preventDefault();
     console.log("verifing");
-  };
-
-  const reject = (e) => {
-    e.preventDefault();
-    console.log("reaject");
-  };
-
-  useEffect(() => {
-    setLoading(true);
-    request({
-      name: "profile-my",
-      method: "get",
-    })
-      .then((response) => {
-        const { data } = response;
-        setProfile(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        const { response } = error;
-        if (response) console.error(response);
+    const { idx } = match.params;
+    setVerifing(true);
+    try {
+      const { data } = await request({
+        name: "profile-verify",
+        method: "post",
+        idx: idx,
       });
+      data.detail && toast(data.detail, { tye: "success" });
+    } catch (error) {
+      const { data } = error.response;
+      data.detail && toast(data.detail, { type: "error" });
+    } finally {
+      setVerifing(false);
+    }
+  };
+
+  const reject = async (data) => {
+    const { idx } = match.params;
+    setRejecting(true);
+    try {
+      const { data } = await request({
+        name: "profile-reject",
+        method: "post",
+        data: data,
+        idx: idx,
+      });
+      data.detail && toast(data.detail, { tye: "success" });
+    } catch ({ response }) {
+      const { data } = response;
+      data.detail && toast(data.detail, { type: "error" });
+    } finally {
+      setRejecting(false);
+    }
+  };
+
+  useEffect(async () => {
+    const { idx } = match.params;
+    setLoading(true);
+    try {
+      const { data } = await request({
+        name: idx ? "profile-detail" : "profile-my",
+        method: "get",
+        idx: idx,
+      });
+      setProfile(data);
+    } catch ({ response }) {
+      const { data } = response;
+      if (response) console.error(data.detail || data);
+    } finally {
+      setLoading(false);
+    }
   }, []);
   if (loading) return <Loader />;
   if (!profile) return <NoDetails addLink="/profile/create" />;
@@ -124,21 +163,34 @@ const ProfileDetail = () => {
         </div>
       </div>
       {_k.is_staff ? (
-        <React.Fragment>
-          <div onClick={verify} className="ui primary button">
+        <div className="ui padded segment borderless">
+          <div
+            onClick={verify}
+            className={`ui primary button ${verifing ? "loading" : ""}`}
+          >
             Verify
           </div>
-          <div onClick={reject} className="ui primary button">
-            Reject
-          </div>
-        </React.Fragment>
+          <div className="ui horizontal divider">OR</div>
+          <Form
+            validation={rejectSchema}
+            onSubmit={reject}
+            fields={[
+              { name: "remarks", type: "textarea", label: "Remarks", rows: 2 },
+            ]}
+            actions={[{ type: "submit", label: "Reject", loading: rejecting }]}
+          />
+        </div>
       ) : (
-        <Link
-          to={`/profile/create/${profile.id}`}
-          className="ui primary button"
-        >
-          Update
-        </Link>
+        <React.Fragment>
+          {!match.params.idx && profile.status !== "Verified" ? (
+            <Link
+              to={`/profile/create/${profile.id}`}
+              className="ui primary button"
+            >
+              Update
+            </Link>
+          ) : null}
+        </React.Fragment>
       )}
     </React.Fragment>
   );

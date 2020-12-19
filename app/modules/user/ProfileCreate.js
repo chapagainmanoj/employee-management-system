@@ -1,17 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { object, shape, string, number } from "yup";
 import { Form } from "../../libs/FormComponent";
+import { REQUIED } from "../../libs/messages";
 import { request } from "../../libs/request";
+import { Table } from "../components/Table";
 import styles from "./user.css";
+import { Link } from "react-router-dom";
+import { parseFormError } from "../../libs/misc";
+import { toast } from "react-toastify";
+
+const AcademicAction = ({ record }) => {
+  return (
+    <div className="ui small icon buttons">
+      <Link to="/">
+        <i className="icon eye"></i>
+      </Link>
+    </div>
+  );
+};
+
+const WorkAction = ({ record }) => {
+  return (
+    <div className="ui small icon buttons">
+      <Link to="/">
+        <i className="icon eye"></i>
+      </Link>
+    </div>
+  );
+};
+
+const academicColumn = [
+  { label: "Degree", key: "degree" },
+  { label: "School", key: "school" },
+  { label: "Location", key: "location" },
+  { label: "Grade", key: "percentage" },
+  { label: "Year Attainded", key: "year_attained" },
+  { label: "Doc", key: "document" },
+];
+
+const workColumn = [
+  { label: "Company", key: "company" },
+  { label: "Location", key: "location" },
+  { label: "Year", key: "year" },
+  { label: "Doc", key: "document" },
+];
 
 const formSchema = object().shape({
-  name: string().required(),
-  designation: string(),
+  name: string().required(REQUIED),
+  designation: string().required(REQUIED),
   dob: string(),
   gender: string(),
   primary_address: string(),
   seconday_address: string(),
   hobbies: string(),
+  user: string(),
 });
 
 const GENDEROPTIONS = [
@@ -29,7 +71,16 @@ const formFields = [
     { name: "designation", type: "text", label: "Designation" },
   ],
   [
-    { name: "dob", type: "date", label: "Date of Birth" },
+    {
+      name: "dob",
+      type: "date",
+      showMonthDropdown: true,
+      showYearDropdown: true,
+      yearDropdownItemNumber: 10,
+      useShortMonthInDropdown: true,
+      scrollableYearDropdown: true,
+      label: "Date of Birth",
+    },
     {
       name: "gender",
       type: "select",
@@ -38,53 +89,126 @@ const formFields = [
       options: GENDEROPTIONS,
     },
   ],
-  { name: "primary_address", type: "text", label: "Primary Address" },
-  { name: "seconday_address", type: "text", label: "Secondary Address" },
-  { name: "hobbies", type: "textarea", label: "Hobbies" },
-  { name: "file", type: "file", label: "Profile pic" },
+  [
+    { name: "primary_address", type: "text", label: "Primary Address" },
+    { name: "seconday_address", type: "text", label: "Secondary Address" },
+  ],
+  { name: "hobbies", type: "textarea", label: "Hobbies", rows: 2 },
+  // { name: "file", type: "file", label: "Profile pic" },
 ];
 
 const defaults = {};
 
-const formActions = [
-  { type: "submit", buttonClass: "basic teal" },
-  { type: "reset", buttonClass: "basic" },
-];
-
-const ProfileCreate = ({ match }) => {
-  const [remoteChange, setRemoteChange] = useState(null);
+const ProfileCreate = ({ match, history }) => {
+  const [profile, setProfile] = useState({});
   const [formError, setFormError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log("submit", data);
-    request({
-      name: match.params.idx ? "profile-detail" : "profile-list",
-      method: "post",
-      id: match.params.idx,
-      data: data,
-    })
-      .then((resp) => {
-        if (resp.status == 200) {
-          window.location.replace("/");
-        }
-      })
-      .catch((error) => {
-        console.log(error.response.data);
+  const formActions = [
+    { type: "submit", buttonClass: "basic teal", label: "Save" },
+    {
+      type: "neutral",
+      buttonClass: "basic",
+      label: "Cancel",
+      onClick: history.goBack,
+    },
+  ];
+
+  useEffect(async () => {
+    const { idx } = match.params;
+    try {
+      const { data } = await request({
+        name: idx ? "profile-detail" : "profile-my",
+        method: "get",
+        idx: idx,
       });
+      setProfile(data);
+    } catch ({ response }) {
+      const { data } = response;
+      if (response) console.error(data.detail || data);
+    } finally {
+    }
+  }, []);
+
+  const onSubmit = async (payload) => {
+    try {
+      setLoading(true);
+      const { data } = await request({
+        name: match.params.idx ? "profile-detail" : "profile-list",
+        method: match.params.idx ? "put" : "post",
+        idx: match.params.idx,
+        data: payload,
+      });
+      toast("Profile successfully saved.", { type: "success" });
+      setProfile(data);
+      history.push(`/profile/create/${data.id}`);
+    } catch (error) {
+      console.log(error, "error");
+      if (error.response) {
+        setFormError(parseFormError(error.response.data));
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className={`ui segment borderless ${styles.bottomSpace}`}>
       <h4>Create Profile</h4>
-
+      <div className="ui horizontal divider">Personal Information</div>
       <Form
+        validation={formSchema}
         onSubmit={onSubmit}
-        fieldUpdater={remoteChange}
+        formUpdater={profile}
         extraError={formError}
         fields={formFields}
         actions={formActions}
         formClass="mgTop20"
       />
+      {match.params.idx && (
+        <React.Fragment>
+          <div className="mgTop40">
+            <div className="ui horizontal divider">Academic Information</div>
+            {profile.academic_profile &&
+              profile.academic_profile.length > 0 && (
+                <Table
+                  basic
+                  collection={profile.academic_profile}
+                  tableClass="very basic mgTop30"
+                  columnSchema={academicColumn}
+                  actions={<AcademicAction />}
+                />
+              )}
+            <Link
+              to={`/profile/create/${profile.id}/academic`}
+              className="ui teal button basic"
+            >
+              <i className="icon plus"></i> Add
+            </Link>
+          </div>
+
+          <div className="mgTop40">
+            <div className="ui horizontal divider">
+              Work Experience Information
+            </div>
+            {profile.work_experience && profile.work_experience.length > 0 && (
+              <Table
+                basic
+                collection={profile.work_experience}
+                tableClass="very basic mgTop30"
+                columnSchema={workColumn}
+                actions={<WorkAction />}
+              />
+            )}
+            <Link
+              to={`/profile/create/${profile.id}/work`}
+              className="ui teal button basic"
+            >
+              <i className="icon plus"></i> Add
+            </Link>
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 };

@@ -5,3 +5,5 @@ export * from "./ProfileList";
 export * from "./UserHome";
 export * from "./UserList";
 export * from "./ProfileCreate";
+export * from "./WorkExperienceCreate";
+export * from "./AcademicCreate";

@@ -48,7 +48,12 @@ class Profile(models.Model):
     hobbies = models.TextField(blank=True, null=True)
 
     def verify (self, request=None, remarks=''):
-        self.status = 'Verified'
+        self.status = self.VERIFIED
+        self.remarks = remarks
+        self.save()
+
+    def reject (self, request=None, remarks=''):
+        self.status = self.UNVERIFIED
         self.remarks = remarks
         self.save()
 
@@ -61,7 +66,9 @@ class Academic(models.Model):
     profile = models.ForeignKey(
         Profile, 
         related_name='academic_profile',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+                null=True,
+        blank=True
         )
     degree = models.CharField(max_length=100)
     school = models.CharField(max_length=100)
@@ -78,7 +85,9 @@ class WorkExperience(models.Model):
     profile = models.ForeignKey(
         Profile, 
         on_delete=models.CASCADE,
-        related_name='work_experience'
+        related_name='work_experience',
+        null=True,
+        blank=True
         )
     company = models.CharField(max_length=100)
     year = models.CharField(max_length=25)

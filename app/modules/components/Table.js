@@ -25,7 +25,7 @@ export const getDataAtDepth = (key, record) => {
   }, record);
 };
 
-const Header = ({ columnSchema, numbered }) => {
+const Header = ({ columnSchema, numbered, actions }) => {
   return (
     <thead>
       <tr key={`sn${Math.random()}`}>
@@ -42,6 +42,7 @@ const Header = ({ columnSchema, numbered }) => {
             </th>
           );
         })}
+        {actions && <th></th>}
       </tr>
     </thead>
   );
@@ -143,6 +144,8 @@ const Table = (props) => {
     handlePageChange,
     numbered,
     actions,
+    tableClass,
+    basic,
     ...rest
   } = props;
   let columnLength = columnSchema.length;
@@ -154,8 +157,12 @@ const Table = (props) => {
   }
   const paginated = handlePageChange && collection.total_pages > 1;
   return (
-    <table className={`ui celled table compact`}>
-      <Header columnSchema={columnSchema} numbered={numbered} />
+    <table className={`ui ${tableClass ? tableClass : "celled compact"} table`}>
+      <Header
+        columnSchema={columnSchema}
+        numbered={numbered}
+        actions={!!actions}
+      />
       <Body
         {...rest}
         columnSchema={columnSchema}
@@ -164,11 +171,13 @@ const Table = (props) => {
         actions={actions}
         numbered={numbered}
       />
-      <Footer
-        paginated={paginated}
-        collection={collection}
-        columnLength={columnLength}
-      />
+      {!basic && (
+        <Footer
+          paginated={paginated}
+          collection={collection}
+          columnLength={columnLength}
+        />
+      )}
     </table>
   );
 };

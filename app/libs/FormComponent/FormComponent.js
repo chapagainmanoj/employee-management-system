@@ -25,6 +25,7 @@ export function Form({
   resolver,
   extraError,
   fieldUpdater,
+  formUpdater,
   ...other
 }) {
   const methods =
@@ -53,7 +54,12 @@ export function Form({
   }, [fieldUpdater]);
 
   useEffect(() => {
-    console.log(extraError, "extra error");
+    if (formUpdater) {
+      methods.reset(formUpdater);
+    }
+  }, [formUpdater]);
+
+  useEffect(() => {
     extraError &&
       extraError.forEach((i) => {
         setError(i.name, { type: "manual", message: i.message });
@@ -416,8 +422,10 @@ export function DateTime({
 
   useEffect(() => {
     let value = watch(name);
-    if (!value && selected) {
+    if (!value) {
       setSelected(null);
+    } else {
+      setSelected(new Date(value));
     }
   }, [watch(name)]);
 
